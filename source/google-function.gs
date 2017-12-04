@@ -10,7 +10,7 @@ function onOpen() {
 }
 function version() {
   var title = 'Joined-up Data Standards Navigator spreadsheet tool';
-  var message = 'This is version 1.0. Please contact us at info@joinedupdata.org if you experience any problems using this tool or to suggest an improvement in its functionality.';
+  var message = 'This is version 2.0. Please contact us at info@joinedupdata.org if you experience any problems using this tool or to suggest an improvement in its functionality.';
   var ui = SpreadsheetApp.getUi();
   ui.alert(title, message, ui.ButtonSet.OK);
 }
