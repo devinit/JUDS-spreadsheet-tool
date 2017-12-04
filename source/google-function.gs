@@ -25,146 +25,129 @@ function version() {
 * @customfunction
 */
 function translateSectorCode(from, to, code){
+
+  var project= new Array();
+  if(to.toLowerCase()=="crs" || to.toLowerCase()=="cofog" ||from.toLowerCase()=="itep"  || to.toLowerCase()=="ntee" ||to.toLowerCase()=="world_bank_themes"  || to.toLowerCase()=="world_bank_sectors" || to.toLowerCase()=="isic"){
+    project='Sectors';
+  }
+  if(to.toLowerCase()=="sdg" || to.toLowerCase()=="mdg" ||from.toLowerCase()=="wdi"){
+    project='Indicators';
+  }  
+  if(to.toLowerCase()=="dhsq7" || to.toLowerCase()=="mics5" ||from.toLowerCase()=="lsms"){
+    project='Surveys';
+  }    
   var output2= new Array()
   var output3= new Array()
   var outputBroad= new Array()
   var UrlArrayExact= new Array();
     var url= "http://178.79.158.119:3030/Sectors/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FexactMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
     url += code;
-    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AexactMatch+%3FexactMatch+.%7D%0A%7B%3FexactMatch+skos%3Anotation+%3Fnotation2+.%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AexactMatch+%3FexactMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FexactMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml";
     UrlArrayExact.push([url]);     
 
   var UrlArrayClose= new Array();
     var url= "http://178.79.158.119:3030/Sectors/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FcloseMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
     url += code;
-    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AcloseMatch+%3FcloseMatch+.%7D%0A%7B%3FcloseMatch+skos%3Anotation+%3Fnotation2+.%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AcloseMatch+%3FcloseMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FcloseMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml";
     UrlArrayClose.push([url]);     
 
   var UrlArrayBroad= new Array();
     var url= "http://178.79.158.119:3030/Sectors/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FbroadMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
     url += code;
-    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AbroadMatch+%3FbroadMatch+.%7D%0A%7B%3FbroadMatch+skos%3Anotation+%3Fnotation2+.%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AbroadMatch+%3FbroadMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/"; 
+    url += project;
+    url += "/query%3E%7B%7B%3FcloseMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml";  
     UrlArrayBroad.push([url]);     
 
   var UrlArrayNarrow= new Array();
     var url= "http://178.79.158.119:3030/Sectors/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FnarrowMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
     url += code;
-    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AnarrowMatch+%3FnarrowMatch+.%7D%0A%7B%3FnarrowMatch+skos%3Anotation+%3Fnotation2+.%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
-    UrlArrayNarrow.push([url]);     
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AnarrowMatch+%3FnarrowMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FnarrowMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml";  
+    UrlArrayNarrow.push([url]);
+    
+  var UrlIndicatorsArrayExact= new Array();
+    var url= "http://178.79.158.119:3030/Indicators/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FexactMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
+    url += code;
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AexactMatch+%3FexactMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FexactMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml";  
+    UrlIndicatorsArrayExact.push([url]); 
+    
+  var UrlIndicatorsArrayClose= new Array();
+    var url= "http://178.79.158.119:3030/Indicators/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FcloseMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
+    url += code;
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AcloseMatch+%3FcloseMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FcloseMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    UrlIndicatorsArrayClose.push([url]);    
+    
+  var UrlIndicatorsArrayNarrow= new Array();
+    var url= "http://178.79.158.119:3030/Indicators/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FnarrowMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
+    url += code;
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AnarrowMatch+%3FnarrowMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FnarrowMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    UrlIndicatorsArrayNarrow.push([url]);      
+ 
+  var UrlIndicatorsArrayBroad= new Array();
+    var url= "http://178.79.158.119:3030/Indicators/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FbroadMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
+    url += code;
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AbroadMatch+%3FbroadMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FbroadMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    UrlIndicatorsArrayBroad.push([url]);    
+    
+  var UrlSurveysArrayExact= new Array();
+    var url= "http://178.79.158.119:3030/Surveys/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FexactMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
+    url += code;
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AexactMatch+%3FexactMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FexactMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    UrlSurveysArrayExact.push([url]); 
+    
+  var UrlSurveysArrayClose= new Array();
+    var url= "http://178.79.158.119:3030/Surveys/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FcloseMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
+    url += code;
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AcloseMatch+%3FcloseMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FcloseMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    UrlSurveysArrayClose.push([url]);    
+    
+  var UrlSurveysArrayNarrow= new Array();
+    var url= "http://178.79.158.119:3030/Surveys/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FnarrowMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
+    url += code;
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AnarrowMatch+%3FnarrowMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FnarrowMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    UrlSurveysArrayNarrow.push([url]);      
+ 
+  var UrlSurveysArrayBroad= new Array();
+    var url= "http://178.79.158.119:3030/Surveys/query?query=PREFIX+skos%3A%3Chttp%3A//www.w3.org/2004/02/skos/core%23%3E%0ASELECT+DISTINCT+%3FConcept+%3Fnotation++%3FbroadMatch+%3Fnotation2%0AWHERE%7B%3FConcept+%3Fx+skos%3AConcept%7B%3FConcept+skos%3Anotation+%3Fnotation+.+Filter+%28regex%28str%28%3Fnotation%29%2C%27";
+    url += code;
+    url +="%27%2C+%27i%27%29%29%7D%0A%7B%3FConcept+skos%3AbroadMatch+%3FbroadMatch+.%7D%0ASERVICE+%3Chttp%3A//178.79.158.119%3A3030/";
+    url += project;
+    url += "/query%3E%7B%7B%3FbroadMatch+skos%3Anotation+%3Fnotation2+.%7D%7D%0A%7DORDER+BY+%3FprefLabel+LIMIT+500+OFFSET+0&output=xml&results=xml&format=xml"; 
+    UrlSurveysArrayBroad.push([url]);        
 
-  for (var b=0; b <UrlArrayExact.length; b++){
-      var url2= UrlArrayExact[b];
-      var url= String(url2);
-      var xml = UrlFetchApp.fetch(url).getContentText();
-      var document = XmlService.parse(xml);
-      var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
-      var root = document.getRootElement();
-      var output = new Array();
-      var results = root.getChild('results', namespace);
-      var columnList = results.getChildren('result', namespace);
-      var Concept = '';
-      var exactMatch = '';
-      var prefLabel = '';
-      var notation = '';
-      var notation2 = '';    
-      for (var i = 0; i < columnList.length; i++){
-          var column = columnList[i];
-          var bindings = column.getChildren("binding", namespace);
-          for (var j=0; j < bindings.length; j++){
-            var bind = bindings[j];
-            var attrName = bind.getAttribute('name').getValue();
-            var uri = "";
-            var text="";
-            if(bind.getChild('literal', namespace)){ 
-              text = bind.getChild('literal', namespace).getValue();
-            }  
-            if(bind.getChild('uri', namespace)) { 
-                 uri = bind.getChild('uri', namespace).getValue();
-            }
-            if (attrName === 'Concept') {
-              Concept = uri;
-            } else if (attrName === 'exactMatch'){
-              exactMatch = uri;        
-            } else if (attrName === 'notation'){
-              notation= text;
-            } else if (attrName === 'notation2'){
-              notation2= text;
-            } 
-          } 
-          output.push([Concept, exactMatch, notation, notation2]);
-        }   
-      }
-     for (var b=0; b <UrlArrayClose.length; b++){
-      var url2= UrlArrayClose[b];
-      var url= String(url2);
-      var xml = UrlFetchApp.fetch(url).getContentText();
-      var document = XmlService.parse(xml);
-      var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
-      var root = document.getRootElement();
-      var results = root.getChild('results', namespace);
-      var columnList = results.getChildren('result', namespace);
-      var Concept = '';
-      var outputClose = new Array();      
-      var closeMatch='';
-      var prefLabel = '';
-      var notation = '';
-      var notation2 = '';    
-      for (var i = 0; i < columnList.length; i++){
-          var column = columnList[i];
-          var bindings = column.getChildren("binding", namespace);
-          for (var j=0; j < bindings.length; j++){
-            var bind = bindings[j];
-            var attrName = bind.getAttribute('name').getValue();
-            var uri = "";
-            var text="";
-            if(bind.getChild('literal', namespace)){ 
-              text = bind.getChild('literal', namespace).getValue();
-            }  
-            if(bind.getChild('uri', namespace)) { 
-                 uri = bind.getChild('uri', namespace).getValue();
-            }
-            if (attrName === 'Concept') {
-              Concept = uri;
-            } else if (attrName === 'closeMatch'){
-              closeMatch = uri;        
-            } else if (attrName === 'notation'){
-              notation= text;
-            } else if (attrName === 'notation2'){
-              notation2= text;
-            } 
-          } 
-          output.push([Concept, closeMatch, notation, notation2]);
-        }   
-       for (var k=0; k<output.length; k++){
-         var object= output[k];
-         Logger.log(object)
-         var origin = String(object).split(',')[0].split('/')[4];
-         var translation = String(object).split(',')[1].split('/')[4];
-         if(origin==(from).toLowerCase() && translation==(to).toLowerCase()){
-           output2.push(object);   
-           }            
-         }
-       }
-       for (var l=0; l<output2.length; l++){
-           var object2= output2[l];
-           var origin2 = String(object2).split(',')[2];
-           var translation2= String(object2).split(',')[3]
-           output3.push([translation2])
-       } 
-       
-       if (output2.length==0){
-        for (var b=0; b <UrlArrayBroad.length; b++){
-          var url2= UrlArrayBroad[b];
+  if(from.toLowerCase()=="crs" || from.toLowerCase()=="cofog" || from.toLowerCase()=="isic" || from.toLowerCase()== "ntee" || from.toLowerCase()== "world_bank_themes" || from.toLowerCase()== "world_bank_sectors" || from.toLowerCase()== "itep"){
+    for (var b=0; b <UrlArrayExact.length; b++){
+          var url2= UrlArrayExact[b];
           var url= String(url2);
           var xml = UrlFetchApp.fetch(url).getContentText();
           var document = XmlService.parse(xml);
           var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
           var root = document.getRootElement();
+          var output = new Array();
           var results = root.getChild('results', namespace);
           var columnList = results.getChildren('result', namespace);
           var Concept = '';
-          var outputBroad = new Array();      
-          var broadMatch='';
+          var exactMatch = '';
           var prefLabel = '';
           var notation = '';
           var notation2 = '';    
@@ -184,39 +167,476 @@ function translateSectorCode(from, to, code){
                 }
                 if (attrName === 'Concept') {
                   Concept = uri;
-                } else if (attrName === 'broadMatch'){
-                  broadMatch = uri;        
+                } else if (attrName === 'exactMatch'){
+                  exactMatch = uri;        
                 } else if (attrName === 'notation'){
                   notation= text;
                 } else if (attrName === 'notation2'){
                   notation2= text;
                 } 
               } 
-              outputBroad.push([Concept, broadMatch, notation, notation2]);
+              output.push([Concept, exactMatch, notation, notation2]);
             }   
-            if (outputBroad.length==0){  
-              var error2 = "There is no exact or more general translation from the code you entered";
-             return error2; }
-            }              
-           for (var k=0; k<outputBroad.length; k++){
-             var outputBroad2 = new Array();                 
-             var object= outputBroad[k];
+          }    
+         for (var b=0; b <UrlArrayClose.length; b++){
+          var url2= UrlArrayClose[b];
+          var url= String(url2);
+          var xml = UrlFetchApp.fetch(url).getContentText();
+          var document = XmlService.parse(xml);
+          var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
+          var root = document.getRootElement();
+          var results = root.getChild('results', namespace);
+          var columnList = results.getChildren('result', namespace);
+          var Concept = '';
+          var closeMatch='';
+          var prefLabel = '';
+          var notation = '';
+          var notation2 = '';    
+          for (var i = 0; i < columnList.length; i++){
+              var column = columnList[i];
+              var bindings = column.getChildren("binding", namespace);
+              for (var j=0; j < bindings.length; j++){
+                var bind = bindings[j];
+                var attrName = bind.getAttribute('name').getValue();
+                var uri = "";
+                var text="";
+                if(bind.getChild('literal', namespace)){ 
+                  text = bind.getChild('literal', namespace).getValue();
+                }  
+                if(bind.getChild('uri', namespace)) { 
+                     uri = bind.getChild('uri', namespace).getValue();
+                }
+                if (attrName === 'Concept') {
+                  Concept = uri;
+                } else if (attrName === 'closeMatch'){
+                  closeMatch = uri;        
+                } else if (attrName === 'notation'){
+                  notation= text;
+                } else if (attrName === 'notation2'){
+                  notation2= text;
+                } 
+              } 
+              output.push([Concept, closeMatch, notation, notation2]);
+            }   
+           for (var k=0; k<output.length; k++){
+             var object= output[k];
              var origin = String(object).split(',')[0].split('/')[4];
              var translation = String(object).split(',')[1].split('/')[4];
              if(origin==(from).toLowerCase() && translation==(to).toLowerCase()){
-               outputBroad2.push(object);   
+               output2.push(object);   
                }            
              }
-            for (var l=0; l<outputBroad2.length; l++){
-               var object2= outputBroad2[l];
+           }
+           for (var l=0; l<output2.length; l++){
+               var object2= output2[l];
                var origin2 = String(object2).split(',')[2];
                var translation2= String(object2).split(',')[3]
-               var messageBroad="Please be aware that this is a broader match to your query";
-               output3.push([translation2, messageBroad])
-             } 
-           }           
-
-       return output3;
+               output3.push([translation2])
+           } 
+           
+           if (output2.length==0){
+            for (var b=0; b <UrlArrayBroad.length; b++){
+              var url2= UrlArrayBroad[b];
+              var url= String(url2);
+              var xml = UrlFetchApp.fetch(url).getContentText();
+              var document = XmlService.parse(xml);
+              var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
+              var root = document.getRootElement();
+              var results = root.getChild('results', namespace);
+              var columnList = results.getChildren('result', namespace);
+              var Concept = '';
+              var outputBroad = new Array();      
+              var broadMatch='';
+              var prefLabel = '';
+              var notation = '';
+              var notation2 = '';    
+              for (var i = 0; i < columnList.length; i++){
+                  var column = columnList[i];
+                  var bindings = column.getChildren("binding", namespace);
+                  for (var j=0; j < bindings.length; j++){
+                    var bind = bindings[j];
+                    var attrName = bind.getAttribute('name').getValue();
+                    var uri = "";
+                    var text="";
+                    if(bind.getChild('literal', namespace)){ 
+                      text = bind.getChild('literal', namespace).getValue();
+                    }  
+                    if(bind.getChild('uri', namespace)) { 
+                         uri = bind.getChild('uri', namespace).getValue();
+                    }
+                    if (attrName === 'Concept') {
+                      Concept = uri;
+                    } else if (attrName === 'broadMatch'){
+                      broadMatch = uri;        
+                    } else if (attrName === 'notation'){
+                      notation= text;
+                    } else if (attrName === 'notation2'){
+                      notation2= text;
+                    } 
+                  } 
+                  outputBroad.push([Concept, broadMatch, notation, notation2]);
+                }   
+                if (outputBroad.length==0){  
+                  var error2 = "There is no exact or more general translation from the code you entered";
+                 return error2; }
+                }              
+               for (var k=0; k<outputBroad.length; k++){
+                 var outputBroad2 = new Array();                 
+                 var object= outputBroad[k];
+                 var origin = String(object).split(',')[0].split('/')[4];
+                 var translation = String(object).split(',')[1].split('/')[4];
+                 if(origin==(from).toLowerCase() && translation==(to).toLowerCase()){
+                   outputBroad2.push(object);   
+                   }            
+                 }
+                for (var l=0; l<outputBroad2.length; l++){
+                   var object2= outputBroad2[l];
+                   var origin2 = String(object2).split(',')[2];
+                   var translation2= String(object2).split(',')[3]
+                   var messageBroad="Please be aware that this is a broader match to your query";
+                   output3.push([translation2, messageBroad])
+                 } 
+               }           
+    
+           return output3;
+      } 
+  if(from.toLowerCase()=="sdg" || from.toLowerCase()=="mdg" || from.toLowerCase()=="wdi"){
+      for (var b=0; b <UrlIndicatorsArrayExact.length; b++){
+          var url2= UrlIndicatorsArrayExact[b];
+          var url= String(url2);
+          var xml = UrlFetchApp.fetch(url).getContentText();
+          var document = XmlService.parse(xml);
+          var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
+          var root = document.getRootElement();
+          var output = new Array();
+          var results = root.getChild('results', namespace);
+          var columnList = results.getChildren('result', namespace);
+          var Concept = '';
+          var exactMatch = '';
+          var prefLabel = '';
+          var notation = '';
+          var notation2 = '';    
+          for (var i = 0; i < columnList.length; i++){
+              var column = columnList[i];
+              var bindings = column.getChildren("binding", namespace);
+              for (var j=0; j < bindings.length; j++){
+                var bind = bindings[j];
+                var attrName = bind.getAttribute('name').getValue();
+                var uri = "";
+                var text="";
+                if(bind.getChild('literal', namespace)){ 
+                  text = bind.getChild('literal', namespace).getValue();
+                }  
+                if(bind.getChild('uri', namespace)) { 
+                     uri = bind.getChild('uri', namespace).getValue();
+                }
+                if (attrName === 'Concept') {
+                  Concept = uri;
+                } else if (attrName === 'exactMatch'){
+                  exactMatch = uri;        
+                } else if (attrName === 'notation'){
+                  notation= text;
+                } else if (attrName === 'notation2'){
+                  notation2= text;
+                } 
+              } 
+              output.push([Concept, exactMatch, notation, notation2]);
+            }   
+          }    
+         for (var b=0; b <UrlIndicatorsArrayClose.length; b++){
+          var url2= UrlIndicatorsArrayClose[b];
+          var url= String(url2);
+          var xml = UrlFetchApp.fetch(url).getContentText();
+          var document = XmlService.parse(xml);
+          var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
+          var root = document.getRootElement();
+          var results = root.getChild('results', namespace);
+          var columnList = results.getChildren('result', namespace);
+          var Concept = '';
+          var closeMatch='';
+          var prefLabel = '';
+          var notation = '';
+          var notation2 = '';    
+          for (var i = 0; i < columnList.length; i++){
+              var column = columnList[i];
+              var bindings = column.getChildren("binding", namespace);
+              for (var j=0; j < bindings.length; j++){
+                var bind = bindings[j];
+                var attrName = bind.getAttribute('name').getValue();
+                var uri = "";
+                var text="";
+                if(bind.getChild('literal', namespace)){ 
+                  text = bind.getChild('literal', namespace).getValue();
+                }  
+                if(bind.getChild('uri', namespace)) { 
+                     uri = bind.getChild('uri', namespace).getValue();
+                }
+                if (attrName === 'Concept') {
+                  Concept = uri;
+                } else if (attrName === 'closeMatch'){
+                  closeMatch = uri;        
+                } else if (attrName === 'notation'){
+                  notation= text;
+                } else if (attrName === 'notation2'){
+                  notation2= text;
+                } 
+              } 
+              output.push([Concept, closeMatch, notation, notation2]);
+            }   
+           for (var k=0; k<output.length; k++){
+             var object= output[k];
+             var origin = String(object).split(',')[0].split('/')[4];
+             var translation = String(object).split(',')[1].split('/')[4];
+             if(origin==(from).toLowerCase() && translation==(to).toLowerCase()){
+               output2.push(object);   
+               }            
+             }
+           }
+           for (var l=0; l<output2.length; l++){
+               var object2= output2[l];
+               var origin2 = String(object2).split(',')[2];
+               var translation2= String(object2).split(',')[3]
+               output3.push([translation2])
+           } 
+           
+           if (output2.length==0){
+            for (var b=0; b <UrlIndicatorsArrayBroad.length; b++){
+              var url2= UrlIndicatorsArrayBroad[b];
+              var url= String(url2);
+              var xml = UrlFetchApp.fetch(url).getContentText();
+              var document = XmlService.parse(xml);
+              var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
+              var root = document.getRootElement();
+              var results = root.getChild('results', namespace);
+              var columnList = results.getChildren('result', namespace);
+              var Concept = '';
+              var outputBroad = new Array();      
+              var broadMatch='';
+              var prefLabel = '';
+              var notation = '';
+              var notation2 = '';    
+              for (var i = 0; i < columnList.length; i++){
+                  var column = columnList[i];
+                  var bindings = column.getChildren("binding", namespace);
+                  for (var j=0; j < bindings.length; j++){
+                    var bind = bindings[j];
+                    var attrName = bind.getAttribute('name').getValue();
+                    var uri = "";
+                    var text="";
+                    if(bind.getChild('literal', namespace)){ 
+                      text = bind.getChild('literal', namespace).getValue();
+                    }  
+                    if(bind.getChild('uri', namespace)) { 
+                         uri = bind.getChild('uri', namespace).getValue();
+                    }
+                    if (attrName === 'Concept') {
+                      Concept = uri;
+                    } else if (attrName === 'broadMatch'){
+                      broadMatch = uri;        
+                    } else if (attrName === 'notation'){
+                      notation= text;
+                    } else if (attrName === 'notation2'){
+                      notation2= text;
+                    } 
+                  } 
+                  outputBroad.push([Concept, broadMatch, notation, notation2]);
+                }   
+                if (outputBroad.length==0){  
+                  var error2 = "There is no exact or more general translation from the code you entered";
+                 return error2; }
+                }              
+               for (var k=0; k<outputBroad.length; k++){
+                 var outputBroad2 = new Array();                 
+                 var object= outputBroad[k];
+                 var origin = String(object).split(',')[0].split('/')[4];
+                 var translation = String(object).split(',')[1].split('/')[4];
+                 if(origin==(from).toLowerCase() && translation==(to).toLowerCase()){
+                   outputBroad2.push(object);   
+                   }            
+                 }
+                for (var l=0; l<outputBroad2.length; l++){
+                   var object2= outputBroad2[l];
+                   var origin2 = String(object2).split(',')[2];
+                   var translation2= String(object2).split(',')[3]
+                   var messageBroad="Please be aware that this is a broader match to your query";
+                   output3.push([translation2, messageBroad])
+                 } 
+               }           
+    
+           return output3;
+      }       
+  if(from.toLowerCase()=="mics5" || from.toLowerCase()=="dhsq7" || from.toLowerCase()=="lsms"){
+      for (var b=0; b <UrlSurveysArrayExact.length; b++){
+          var url2= UrlSurveysArrayExact[b];
+          var url= String(url2);
+          var xml = UrlFetchApp.fetch(url).getContentText();
+          var document = XmlService.parse(xml);
+          var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
+          var root = document.getRootElement();
+          var output = new Array();
+          var results = root.getChild('results', namespace);
+          var columnList = results.getChildren('result', namespace);
+          var Concept = '';
+          var exactMatch = '';
+          var prefLabel = '';
+          var notation = '';
+          var notation2 = '';    
+          for (var i = 0; i < columnList.length; i++){
+              var column = columnList[i];
+              var bindings = column.getChildren("binding", namespace);
+              for (var j=0; j < bindings.length; j++){
+                var bind = bindings[j];
+                var attrName = bind.getAttribute('name').getValue();
+                var uri = "";
+                var text="";
+                if(bind.getChild('literal', namespace)){ 
+                  text = bind.getChild('literal', namespace).getValue();
+                }  
+                if(bind.getChild('uri', namespace)) { 
+                     uri = bind.getChild('uri', namespace).getValue();
+                }
+                if (attrName === 'Concept') {
+                  Concept = uri;
+                } else if (attrName === 'exactMatch'){
+                  exactMatch = uri;        
+                } else if (attrName === 'notation'){
+                  notation= text;
+                } else if (attrName === 'notation2'){
+                  notation2= text;
+                } 
+              } 
+              output.push([Concept, exactMatch, notation, notation2]);
+            }   
+          }    
+         for (var b=0; b <UrlSurveysArrayClose.length; b++){
+          var url2= UrlSurveysArrayClose[b];
+          var url= String(url2);
+          var xml = UrlFetchApp.fetch(url).getContentText();
+          var document = XmlService.parse(xml);
+          var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
+          var root = document.getRootElement();
+          var results = root.getChild('results', namespace);
+          var columnList = results.getChildren('result', namespace);
+          var Concept = '';
+          var closeMatch='';
+          var prefLabel = '';
+          var notation = '';
+          var notation2 = '';    
+          for (var i = 0; i < columnList.length; i++){
+              var column = columnList[i];
+              var bindings = column.getChildren("binding", namespace);
+              for (var j=0; j < bindings.length; j++){
+                var bind = bindings[j];
+                var attrName = bind.getAttribute('name').getValue();
+                var uri = "";
+                var text="";
+                if(bind.getChild('literal', namespace)){ 
+                  text = bind.getChild('literal', namespace).getValue();
+                }  
+                if(bind.getChild('uri', namespace)) { 
+                     uri = bind.getChild('uri', namespace).getValue();
+                }
+                if (attrName === 'Concept') {
+                  Concept = uri;
+                } else if (attrName === 'closeMatch'){
+                  closeMatch = uri;        
+                } else if (attrName === 'notation'){
+                  notation= text;
+                } else if (attrName === 'notation2'){
+                  notation2= text;
+                } 
+              } 
+              output.push([Concept, closeMatch, notation, notation2]);
+            }   
+           for (var k=0; k<output.length; k++){
+             var object= output[k];
+             var origin = String(object).split(',')[0].split('/')[4].split('_')[2];
+             var translation = String(object).split(',')[1].split('/')[4].split('_')[2];
+             if(origin=="u5"){
+               origin=String(origin).replace('u5','mics5')
+             }
+             if(translation=="u5"){
+               translation=String(translation).replace('u5','mics5')
+             }
+                     
+             if(origin==(from).toLowerCase() && translation==(to).toLowerCase()){
+               output2.push(object);  
+               }            
+             }
+           }
+           for (var l=0; l<output2.length; l++){
+               var object2= output2[l];
+               var origin2 = String(object2).split(',')[2];
+               var translation2= String(object2).split(',')[3];
+               output3.push([translation2])
+           } 
+           
+           if (output2.length==0){
+            for (var b=0; b <UrlSurveysArrayBroad.length; b++){
+              var url2= UrlSurveysArrayBroad[b];
+              var url= String(url2);
+              var xml = UrlFetchApp.fetch(url).getContentText();
+              var document = XmlService.parse(xml);
+              var namespace = XmlService.getNamespace('http://www.w3.org/2005/sparql-results#');
+              var root = document.getRootElement();
+              var results = root.getChild('results', namespace);
+              var columnList = results.getChildren('result', namespace);
+              var Concept = '';
+              var outputBroad = new Array();      
+              var broadMatch='';
+              var prefLabel = '';
+              var notation = '';
+              var notation2 = '';    
+              for (var i = 0; i < columnList.length; i++){
+                  var column = columnList[i];
+                  var bindings = column.getChildren("binding", namespace);
+                  for (var j=0; j < bindings.length; j++){
+                    var bind = bindings[j];
+                    var attrName = bind.getAttribute('name').getValue();
+                    var uri = "";
+                    var text="";
+                    if(bind.getChild('literal', namespace)){ 
+                      text = bind.getChild('literal', namespace).getValue();
+                    }  
+                    if(bind.getChild('uri', namespace)) { 
+                         uri = bind.getChild('uri', namespace).getValue();
+                    }
+                    if (attrName === 'Concept') {
+                      Concept = uri;
+                    } else if (attrName === 'broadMatch'){
+                      broadMatch = uri;        
+                    } else if (attrName === 'notation'){
+                      notation= text;
+                    } else if (attrName === 'notation2'){
+                      notation2= text;
+                    } 
+                  } 
+                  outputBroad.push([Concept, broadMatch, notation, notation2]);
+                }   
+                if (outputBroad.length==0){  
+                  var error2 = "There is no exact or more general translation from the code you entered";
+                 return error2; }
+                }              
+               for (var k=0; k<outputBroad.length; k++){
+                 var outputBroad2 = new Array();                 
+                 var object= outputBroad[k];
+                 var origin = String(object).split(',')[0].split('/')[4];
+                 var translation = String(object).split(',')[1].split('/')[4];
+                 if(origin==(from).toLowerCase() && translation==(to).toLowerCase()){
+                   outputBroad2.push(object);   
+                   }            
+                 }
+                for (var l=0; l<outputBroad2.length; l++){
+                   var object2= outputBroad2[l];
+                   var origin2 = String(object2).split(',')[2];
+                   var translation2= String(object2).split(',')[3]
+                   var messageBroad="Please be aware that this is a broader match to your query";
+                   output3.push([translation2, messageBroad])
+                 } 
+               }           
+    
+           return output3;
+      }             
 }
 
 
@@ -224,7 +644,7 @@ function translateSectorCode(from, to, code){
 *
 * Return specific country code from Joined-up Data Standards Navigator 
 *
-* @param  {australia}  from  Country name of interest or select the cell where this information can be found
+* @param  {australia}  country  Country name of interest or select the cell where this information can be found
 * @param  {dac}     to    The country classification to be returned or select the cell where this information can be found
 * @return                 Specific country code requested
 * @customfunction
